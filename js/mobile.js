@@ -11,8 +11,8 @@ var MAX_RESOLUTION = 3264 * 2448; // 8MP (Mega Pixel)
 var supportingFileAPI = !!(window.File && window.FileList && window.FileReader);
 var rImageType = /data:(image\/.+);base64,/;
 var shapeOpt = {
-    fill: '#fff',
-    stroke: '#000',
+    fill: 'transparent',
+    stroke: '#f00',
     strokeWidth: 10
 };
 var activeObjectId;
@@ -38,25 +38,14 @@ var $btnRedo = $('#btn-redo');
 var $btnRemoveActiveObject = $('#btn-remove-active-object');
 
 // Image editor controls - bottom menu buttons
-var $btnCrop = $('#btn-crop');
 var $btnAddText = $('#btn-add-text');
 
 // Image editor controls - bottom submenu buttons
-var $btnApplyCrop = $('#btn-apply-crop');
-var $btnFlipX = $('#btn-flip-x');
-var $btnFlipY = $('#btn-flip-y');
-var $btnRotateClockwise = $('#btn-rotate-clockwise');
-var $btnRotateCounterClockWise = $('#btn-rotate-counter-clockwise');
 var $btnAddArrowIcon = $('#btn-add-arrow-icon');
-var $btnAddCancelIcon = $('#btn-add-cancel-icon');
-var $btnAddCustomIcon = $('#btn-add-custom-icon');
 var $btnFreeDrawing = $('#btn-free-drawing');
 var $btnLineDrawing = $('#btn-line-drawing');
 var $btnAddRect = $('#btn-add-rect');
-var $btnAddSquare = $('#btn-add-square');
-var $btnAddEllipse = $('#btn-add-ellipse');
 var $btnAddCircle = $('#btn-add-circle');
-var $btnAddTriangle = $('#btn-add-triangle');
 var $btnChangeTextStyle = $('.btn-change-text-style');
 
 // Image editor controls - etc.
@@ -196,13 +185,10 @@ function showSubMenu(type) {
 
     switch (type) {
         case 'shape':
-            index = 3;
-            break;
-        case 'icon':
-            index = 4;
+            index = 2;
             break;
         case 'text':
-            index = 5;
+            index = 3;
             break;
         default:
             index = 0;
@@ -237,7 +223,11 @@ imageEditor.on({
     },
     objectActivated: function(obj) {
         activeObjectId = obj.id;
-        if (obj.type === 'rect' || obj.type === 'circle' || obj.type === 'triangle') {
+        if (obj.type === 'rect') {
+            showSubMenu('shape');
+            setShapeToolbar(obj);
+            activateShapeMode();
+        } else if (obj.type === 'circle') {
             showSubMenu('shape');
             setShapeToolbar(obj);
             activateShapeMode();
@@ -346,47 +336,9 @@ $btnDownload.on('click', function() {
     }
 });
 
-// Crop menu action
-$btnCrop.on('click', function() {
-    imageEditor.startDrawingMode('CROPPER');
-});
-
-$btnApplyCrop.on('click', function() {
-    imageEditor.crop(imageEditor.getCropzoneRect()).then(() => {
-        imageEditor.stopDrawingMode();
-        $subMenus.removeClass('show');
-        $hiddenMenus.removeClass('show');
-    });
-});
-
-// Orientation menu action
-$btnRotateClockwise.on('click', function() {
-    imageEditor.rotate(90);
-});
-
-$btnRotateCounterClockWise.on('click', function() {
-    imageEditor.rotate(-90);
-});
-
-$btnFlipX.on('click', function() {
-    imageEditor.flipX();
-});
-
-$btnFlipY.on('click', function() {
-    imageEditor.flipY();
-});
-
 // Icon menu action
 $btnAddArrowIcon.on('click', function() {
     imageEditor.addIcon('arrow');
-});
-
-$btnAddCancelIcon.on('click', function() {
-    imageEditor.addIcon('cancel');
-});
-
-$btnAddCustomIcon.on('click', function() {
-    imageEditor.addIcon('customArrow');
 });
 
 iconColorpicker.on('selectColor', function(event) {
@@ -396,6 +348,8 @@ iconColorpicker.on('selectColor', function(event) {
 // Text menu action
 $btnAddText.on('click', function() {
     var initText = 'DoubleClick';
+	$displayingSubMenu = $(this).parent().find(submenuClass).show();
+    $displayingHiddenMenu = $(this).parent().find(hiddenmenuClass);
 
     imageEditor.startDrawingMode('TEXT');
     imageEditor.addText(initText, {
@@ -444,7 +398,7 @@ $inputTextSizeRange.on('change', function() {
     });
 });
 
-textColorpicker.on('selectColor', function(event) {
+$textColorpicker.on('selectColor', function(event) {
     imageEditor.changeTextStyle(activeObjectId, {
         fill: event.color
     });
@@ -485,21 +439,6 @@ $btnAddRect.on('click', function() {
     }, shapeOpt));
 });
 
-$btnAddSquare.on('click', function() {
-    imageEditor.addShape('rect', tui.util.extend({
-        width: 400,
-        height: 400,
-        isRegular: true
-    }, shapeOpt));
-});
-
-$btnAddEllipse.on('click', function() {
-    imageEditor.addShape('circle', tui.util.extend({
-        rx: 300,
-        ry: 200
-    }, shapeOpt));
-});
-
 $btnAddCircle.on('click', function() {
     imageEditor.addShape('circle', tui.util.extend({
         rx: 200,
@@ -507,13 +446,6 @@ $btnAddCircle.on('click', function() {
         isRegular: true
     }, shapeOpt));
 });
-
-$btnAddTriangle.on('click', function() {
-    imageEditor.addShape('triangle', tui.util.extend({
-        width: 500,
-        height: 400,
-        isRegular: true
-    }, shapeOpt));
 });
 
 $inputStrokeWidthRange.on('change', function() {

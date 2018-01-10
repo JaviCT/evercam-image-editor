@@ -10,29 +10,21 @@
         <div class="body-container">
             <div class="tui-image-editor-controls">
                 <div class="header">
-                    <span class="name"> Javier Calero</span>
-                    <ul class="menu">
-                        <li class="menu-item border input-wrapper">
-                            Load
-                            <input type="file" accept="image/*" id="input-image-file">
-                        </li>
-                        <li class="menu-item border" id="btn-download">Download</li>
-                    </ul>
+					<img class="logo" src="img/logo1.png">
                 </div>
                 <ul class="menu">
+					<li class="menu-item border input-wrapper">
+						Load
+						<input type="file" accept="image/*" id="input-image-file">
+					</li>
+					<li class="menu-item border" id="btn-download">Download</li>
                     <li class="menu-item disabled" id="btn-undo">Undo</li>
                     <li class="menu-item disabled" id="btn-redo">Redo</li>
                     <li class="menu-item" id="btn-clear-objects">ClearObjects</li>
-                    <li class="menu-item" id="btn-remove-active-object">RemoveActiveObject</li>
-                    <li class="menu-item" id="btn-crop">Crop</li>
-                    <li class="menu-item" id="btn-flip">Flip</li>
-                    <li class="menu-item" id="btn-rotation">Rotation</li>
                     <li class="menu-item" id="btn-draw-line">DrawLine</li>
                     <li class="menu-item" id="btn-draw-shape">Shape</li>
                     <li class="menu-item" id="btn-add-icon">Icon</li>
                     <li class="menu-item" id="btn-text">Text</li>
-                    <li class="menu-item" id="btn-mask-filter">Mask</li>
-                    <li class="menu-item" id="btn-image-filter">Filter</li>
                 </ul>
                 <div class="sub-menu-container" id="crop-sub-menu">
                     <ul class="menu">
@@ -74,14 +66,13 @@
                         <li class="menu-item">
                             <label><input type="radio" name="select-shape-type" value="rect" checked="checked"> rect</label>
                             <label><input type="radio" name="select-shape-type" value="circle"> circle</label>
-                            <label><input type="radio" name="select-shape-type" value="triangle"> triangle</label>
                         </li>
                         <li class="menu-item">
                             <select name="select-color-type">
+								<option value="stroke">Stroke</option>
                                 <option value="fill">Fill</option>
-                                <option value="stroke">Stroke</option>
                             </select>
-                            <label><input type="checkbox" id="input-check-transparent">transparent</label>
+                            <label><input type="checkbox" id="input-check-transparent" checked="checked" value="1">transparent</label>
                             <div id="tui-shape-color-picker"></div>
                         </li>
                         <li class="menu-item"><label class="menu-item no-pointer">Stroke width<input id="input-stroke-width-range" type="range" min="0" max="300" value="12"></label></li>
@@ -93,9 +84,7 @@
                         <li class="menu-item">
                             <div id="tui-icon-color-picker">Icon color</div>
                         </li>
-                        <li class="menu-item border" id="btn-register-icon">Register custom icon</li>
                         <li class="menu-item icon-text" data-icon-type="arrow">➡</li>
-                        <li class="menu-item icon-text" data-icon-type="cancel">✖</li>
                         <li class="menu-item close">Close</li>
                     </ul>
                 </div>
