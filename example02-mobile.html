@@ -3,13 +3,16 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, user-scalable=no">
-        <title>Evercam Image editor mobile</title>
+        <title>Image editor mobile</title>
         <link type="text/css" href="css/colorpicker.min.css" rel="stylesheet">
         <link type="text/css" href="css/tui-image-editor-m.css" rel="stylesheet">
     </head>
     <body>
         <!-- Image editor controls - top area -->
         <div class="header">
+            <div>
+                <img class="logo" src="img/logo1.png">
+            </div>
             <div class="menu">
                 <span class="button">
                     <img src="img/openImage.png" style="margin-top: 5px;" />
@@ -27,6 +30,27 @@
         <div class="tui-image-editor-controls">
             <ul class="scrollable">
                 <li class="menu-item">
+                    <button class="menu-button" id="btn-crop">Crop</button>
+                    <div class="submenu">
+                        <button class="btn-prev">&lt;</button>
+                        <ul class="scrollable">
+                            <li class="menu-item"><button class="submenu-button" id="btn-apply-crop">Apply</button></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="menu-item">
+                    <button class="menu-button">Orientation</button>
+                    <div class="submenu">
+                        <button class="btn-prev">&lt;</button>
+                        <ul class="scrollable">
+                            <li class="menu-item"><button class="submenu-button" id="btn-rotate-clockwise">Rotate +90</button></li>
+                            <li class="menu-item"><button class="submenu-button" id="btn-rotate-counter-clockwise">Rotate -90</button></li>
+                            <li class="menu-item"><button class="submenu-button" id="btn-flip-x">FilpX</button></li>
+                            <li class="menu-item"><button class="submenu-button" id="btn-flip-y">FilpY</button></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="menu-item">
                     <button class="menu-button" id="btn-draw-line">Drawing</button>
                     <div class="submenu">
                         <button class="btn-prev">&lt;</button>
@@ -37,28 +61,48 @@
                             <li class="menu-item">
                                 <button class="submenu-button" id="btn-line-drawing">Line<br>Drawing</button>
                             </li>
-							<li class="menu-item">
-                                <button class="submenu-button" id="btn-add-circle">Circle</button>
-                            </li>
-							<li class="menu-item">
-								<button class="submenu-button" id="btn-add-arrow-icon">Arrow<br>Icon</button>
-							</li>
-							<li class="menu-item">
-                                <button class="submenu-button" id="btn-add-rect">Rectagle</button>
-                            </li>
                             <li class="menu-item">
                                 <button class="submenu-button" id="btn-change-size">Brush<br>Size</button>
                                 <div class="hiddenmenu">
                                     <input id="input-brush-range" type="range" min="10" max="100" value="50" />
                                 </div>
                             </li>
-							<li class="menu-item">
+                            <li class="menu-item">
                                 <button class="submenu-button" id="btn-change-text-color">Brush<br>Color</button>
                                 <div class="hiddenmenu">
                                     <div id="tui-brush-color-picker"></div>
                                 </div>
                             </li>
-							<li class="menu-item">
+                        </ul>
+                    </div>
+                </li>
+                <li class="menu-item">
+                    <button class="menu-button" id="btn-draw-shape">Shape</button>
+                    <div class="submenu">
+                        <button class="btn-prev">&lt;</button>
+                        <ul class="scrollable">
+                            <li class="menu-item">
+                                <button class="submenu-button" id="btn-add-rect">Rectagle</button>
+                            </li>
+                            <li class="menu-item">
+                                <button class="submenu-button" id="btn-add-square">Square</button>
+                            </li>
+                            <li class="menu-item">
+                                <button class="submenu-button" id="btn-add-ellipse">Ellipse</button>
+                            </li>
+                            <li class="menu-item">
+                                <button class="submenu-button" id="btn-add-circle">Circle</button>
+                            </li>
+                            <li class="menu-item">
+                                <button class="submenu-button" id="btn-add-triangle">Triangle</button>
+                            </li>
+                            <li class="menu-item">
+                                <button class="submenu-button" id="btn-stroke-size">Stroke<br>Size</button>
+                                <div class="hiddenmenu">
+                                    <input id="input-stroke-range" type="range" min="1" max="100" value="10" />
+                                </div>
+                            </li>
+                            <li class="menu-item">
                                 <button class="submenu-button" id="btn-change-shape-color">Color</button>
                                 <div class="hiddenmenu">
                                     <div class="top">
@@ -69,7 +113,17 @@
                                     <div id="tui-shape-color-picker"></div>
                                 </div>
                             </li>
-							<li class="menu-item">
+                        </ul>
+                    </div>
+                </li>
+                <li class="menu-item">
+                    <button class="menu-button">Icon</button>
+                    <div class="submenu">
+                        <button class="btn-prev">&lt;</button>
+                        <ul class="scrollable">
+                            <li class="menu-item"><button class="submenu-button" id="btn-add-arrow-icon">Arrow<br>Icon</button></li>
+                            <li class="menu-item"><button class="submenu-button" id="btn-add-cancel-icon">Cancel<br>Icon</button></li>
+                            <li class="menu-item">
                                 <button class="submenu-button" id="btn-change-icon-color">Color</button>
                                 <div class="hiddenmenu">
                                     <div id="tui-icon-color-picker"></div>
@@ -78,7 +132,7 @@
                         </ul>
                     </div>
                 </li>
-				<li class="menu-item">
+                <li class="menu-item">
                     <button class="menu-button" id="btn-add-text">Text</button>
                     <div class="submenu">
                         <button class="btn-prev">&lt;</button>
@@ -115,6 +169,7 @@
                     </div>
                 </li>
             </ul>
+            <p class="msg">Menu Scrolling <b>Left ⇔ Right</b></p>
         </div>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.6.7/fabric.js"></script>
         <script type="text/javascript" src="https://cdn.rawgit.com/nhnent/tui.code-snippet/v1.2.5/dist/tui-code-snippet.js"></script>
